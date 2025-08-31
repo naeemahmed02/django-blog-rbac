@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     
     # EXTERNAL APPS
     'core',
+    'blog',
+    'category',
+    'comments',
 ]
 
 MIDDLEWARE = [
