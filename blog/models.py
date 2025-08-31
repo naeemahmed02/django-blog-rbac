@@ -1,5 +1,6 @@
 from django.db import models
 from category.models import Category
+from comments.models import Comments
 
 STATUS = (
     ('draft', 'Draft'),
@@ -13,7 +14,7 @@ class POST(models.Model):
     content = models.TextField()
     featured_image = models.ImageField(upload_to='media/post_featured_images')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    # comments = ''
+    comments = models.ForeignKey(Comments, on_delete=models.CASCADE)
     views = models.IntegerField(default=0)
     claps = models.IntegerField(default=0)
     status = models.CharField(choices=STATUS, max_length=10)
