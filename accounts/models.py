@@ -57,6 +57,8 @@ class Account(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_super_user = models.BooleanField(default=False)
     
+    object = MyAccountManager()
+    
     # set username as email
     USERNAME_FIELD = 'email'
     # REQUIRED_FIELDS
