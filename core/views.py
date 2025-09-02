@@ -19,13 +19,19 @@ def home(request):
     
     # Trending posts based on views
     trending_posts_sidebar = Post.objects.filter(status = 'published').order_by('-views')[:6]
+    
+    # categories
+    categories = Category.objects.all().order_by('-created_at')[:3]
+    
+    
     context = {
         "hero_posts": hero_posts,
         "category_posts": category_posts,
         "col_1": col_1,
         "col_2": col_2,
         "col_3": col_3,
-        'trending_posts_sidebar' : trending_posts_sidebar
+        'trending_posts_sidebar' : trending_posts_sidebar,
+        'categories' : categories
     }
     print(context)
     return render(request, "core/index.html", context)
