@@ -1,38 +1,72 @@
 {% extends 'main.html' %}
 
-{% block title %}{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-    <!-- Blog Post Layout -->
+<!-- Blog Post Layout -->
 <div class="content overflow-hidden bg-white">
   <div class="container px-4 py-5 px-md-5" style="max-width: 900px;">
     <!-- Title + Meta -->
     <div class="pb-4 mb-4 text-center border-bottom">
       <h1 class="fw-bold display-5 mb-3 text-dark">
-        Blog Post Title
+        {{ post.title }}
       </h1>
-      <p class="text-muted small">5 min read</p>
-    </div>
-
-    <!-- Table of Contents -->
-    <div class="bg-dark text-light p-4 p-md-5 mb-5 rounded">
-      <h2 class="h5 text-white mb-3">Table of Contents</h2>
-      <ul class="list-unstyled ms-3">
-        <li><a href="#section1" class="text-success text-decoration-none">Section 1</a></li>
-        <li><a href="#section2" class="text-success text-decoration-none">Section 2</a></li>
-      </ul>
+      <p class="text-muted small">{{ post.time_to_read }} min read</p>
     </div>
 
     <!-- Article Content -->
-    <div class="article-content fs-6 lh-lg">
-      <p>This is an example article content.</p>
-
-      <h2 id="section1" class="h4 mt-5">Section 1</h2>
-      <p>Details for section 1.</p>
-
-      <h2 id="section2" class="h4 mt-5">Section 2</h2>
-      <p>Details for section 2.</p>
+    <div class="article-content fs-6 lh-lg mb-5">
+      {{ post.content|safe }}
     </div>
+
+    <!-- Comment Section -->
+    <div class="comments-section mt-5">
+      <h3 class="h5 fw-bold mb-4">Comments</h3>
+
+      <!-- Add Comment Form -->
+      <form method="POST" class="mb-5">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="comment" class="form-label">Leave a comment</label>
+          {{ form }}
+        </div>
+        <button type="submit" class="btn btn-success">Post Comment</button>
+      </form>
+
+      <!-- Comment List -->
+      <div class="comment-list">
+        <!-- Example Comment -->
+        <div class="d-flex mb-4">
+          <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="User">
+          <div>
+            <h6 class="fw-bold mb-1">John Doe <small class="text-muted">· 2 hours ago</small></h6>
+            <p class="mb-2">This is an example comment. You can reply below.</p>
+            <a href="#" class="text-success small text-decoration-none">Reply</a>
+
+            <!-- Nested Reply -->
+            <div class="d-flex mt-3 ms-4">
+              <img src="https://via.placeholder.com/40" class="rounded-circle me-3" alt="User">
+              <div>
+                <h6 class="fw-bold mb-1">Jane Smith <small class="text-muted">· 1 hour ago</small></h6>
+                <p class="mb-2">This is a reply to the comment above.</p>
+                <a href="#" class="text-success small text-decoration-none">Reply</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Another Comment -->
+        <div class="d-flex mb-4">
+          <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="User">
+          <div>
+            <h6 class="fw-bold mb-1">Alice <small class="text-muted">· 3 days ago</small></h6>
+            <p class="mb-2">Really enjoyed reading this blog post. Thanks for sharing!</p>
+            <a href="#" class="text-success small text-decoration-none">Reply</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Comment Section -->
   </div>
 </div>
 
@@ -41,5 +75,4 @@
 <script>
   hljs.highlightAll();
 </script>
-
 {% endblock %}

@@ -3,7 +3,7 @@ from blog.models import Post
 from accounts.models import Account
 
 class Comments(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='posts')
     author = models.ForeignKey(Account, on_delete=models.CASCADE)
     message = models.TextField()
     approved = models.BooleanField(default=False)
