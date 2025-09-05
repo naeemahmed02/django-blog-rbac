@@ -1,87 +1,108 @@
 {% extends 'main.html' %}
+{% load static %}
+
 {% block title %}Articles{% endblock %}
 
 {% block content %}
-  <div class="container py-5">
-    
-    <!-- Heading -->
-    <div class="text-center mb-5">
-      <h1 class="display-4 fw-bold text-dark">All Articles</h1>
-    </div>
+<div class="container py-5">
 
-    <!-- Search Bar -->
-    <div class="row justify-content-center mb-5">
-      <div class="col-md-8 col-lg-6">
-        <form class="d-flex">
-          <input type="text" class="form-control me-2" placeholder="Search articles">
-          <button type="submit" class="btn btn-outline-secondary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 
-              1.415-1.415l-3.85-3.85zm-5.242 
-              1.398a5.5 5.5 0 1 1 
-              0-11 5.5 5.5 0 0 1 0 11z"/>
+  <!-- Heading -->
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold text-dark">All Articles</h1>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-8 col-lg-6">
+      <form method="GET" action="{% url 'articles' %}">
+        <div class="input-group input-group-lg shadow-sm">
+          <input type="text" name="query" class="form-control ps-3"
+                 placeholder="Search articles..." value="{{ query|default:'' }}">
+          <button class="btn btn-success px-4" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                 class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 
+                  1.398h-.001l3.85 3.85a1 1 0 0 0 
+                  1.415-1.415l-3.85-3.85zm-5.242 
+                  1.398a5.5 5.5 0 1 1 
+                  0-11 5.5 5.5 0 0 1 0 11z"/>
             </svg>
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
+  </div>
 
-    <!-- Article List -->
-    <div class="mx-auto" style="max-width: 800px;">
+  <!-- Article List -->
+  <div class="mx-auto" style="max-width: 800px;">
+    {% if page_obj %}
+      {% if query %}
+        <p class="mb-3">Showing results for "{{ query }}"</p>
+      {% endif %}
       <ul class="list-unstyled">
         {% for article in page_obj %}
-        <!-- Example Article -->
-        <li class="py-5 border-bottom">
-          <a href="#" class="text-decoration-none">
-            <span class="badge bg-success-subtle text-success mb-2">{{ article.category }}</span>
-          </a>
-          <h2 class="h4 fw-bold">
-            <a href="{% url 'single_post' article.category.slug article.slug %}" class="text-dark text-decoration-none">{{ article.title }}</a>
-          </h2>
-          <p class="text-muted mt-3">{{ article.content|truncatewords_html:30|safe }}</p>
-          <div class="d-flex justify-content-between align-items-center mt-3">
-            <a href="{% url 'single_post' article.category.slug article.slug %}" class="text-success fw-semibold text-decoration-none">Read more →</a>
-            <small class="text-muted">{{article.time_to_read}} min read</small>
-          </div>
-        </li>
+          <li class="py-5 border-bottom">
+            <a href="#" class="text-decoration-none">
+              <span class="badge bg-success-subtle text-success mb-2">{{ article.category }}</span>
+            </a>
+            <h2 class="h4 fw-bold">
+              <a href="{% url 'single_post' article.category.slug article.slug %}" 
+                 class="text-dark text-decoration-none">{{ article.title }}</a>
+            </h2>
+            <p class="text-muted mt-3">{{ article.content|truncatewords_html:30|safe }}</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <a href="{% url 'single_post' article.category.slug article.slug %}" 
+                 class="text-success fw-semibold text-decoration-none">Read more →</a>
+              <small class="text-muted">{{ article.time_to_read }} min read</small>
+            </div>
+          </li>
         {% endfor %}
       </ul>
-    </div>
-
-    <!-- Pagination -->
-<nav aria-label="Page navigation" class="mt-5">
-  <ul class="pagination justify-content-center">
-    {% if page_obj.has_previous %}
-    <li class="page-item">
-      <a class="page-link text-success border-success" href="?page={{page_obj.previous_page_number}}">Prev</a>
-    </li>
     {% else %}
-    <li class="page-item disabled">
-      <a class="page-link text-success border-success">Prev</a>
-    </li>
+      <p>No articles found.</p>
     {% endif %}
-    {% for num in page_obj.paginator.page_range %}
-    {% if page_obj.number == num %}
-    <li class="page-item active">
-      <a class="page-link bg-success border-success" href="?page={{num}}">{{num}}</a>
-    </li>
-    {% else %}
-    <li class="page-item active">
-      <a class="page-link bg-success border-success" href="?page={{num}}">{{num}}</a>
-    </li>
-    {% endif %}
-    {% endfor %}
-    {% if page_obj.has_next %}
-    <li class="page-item">
-      <a class="page-link text-success border-success" href="?page={{page_obj.next_page_number}}">Next</a>
-    </li>
-    {% else %}
-    <li class="page-item disabled">
-      <a class="page-link text-success border-success" href="#">Next</a>
-    </li>
-    {% endif %}
-  </ul>
-</nav>
-
   </div>
+
+  <!-- Pagination -->
+  {% if page_obj.has_other_pages %}
+  <nav aria-label="Page navigation" class="mt-5">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link text-success border-success"
+             href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Prev</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link text-success border-success">Prev</span>
+        </li>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <li class="page-item active">
+            <span class="page-link bg-success border-success">{{ num }}</span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link text-success border-success" href="?q={{ query }}&page={{ num }}">{{ num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link text-success border-success"
+             href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link text-success border-success">Next</span>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+
+</div>
 {% endblock %}

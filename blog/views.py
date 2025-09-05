@@ -3,6 +3,8 @@ from .models import Post
 from comments.forms import CommentForm
 from comments.models import Comments
 from django.core.paginator import Paginator
+from django.db.models import Q
+from .forms import GuestPostForm
 
 
 def single_post(request, post_category:str, post_slug:str):
@@ -30,9 +32,26 @@ def single_post(request, post_category:str, post_slug:str):
 
 
 def articles(request):
-    articles = Post.objects.filter(status = 'published')
+    query = request.GET.get('query')
+    if query:
+        articles = Post.objects.filter(status = 'published').filter(Q(title__icontains=query) | Q(content__icontains=query))
+    else:
+        articles = Post.objects.filter(status = 'published')
     paginator = Paginator(articles, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    context = {'articles': articles, 'page_obj': page_obj}
+    context = {'articles': articles, 'page_obj': page_obj, 'query': query}
     return render(request, 'blog/articles.html', context)
+
+def add_guest_post(request):
+    if request.method == "POST":
+        form = GuestPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.status = 'draft'
+            post.author = request.user
+            post.save()
+    else:
+        form = GuestPostForm()
+    context = {'form': form}
+    return render(request, 'blog/guest_post.html', context)
