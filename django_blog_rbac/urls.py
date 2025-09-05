@@ -8,6 +8,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('blog/', include('blog.urls')),
     path('froala_editor/', include('froala_editor.urls')),
+    path('accounts/', include('accounts.urls')),
 ]
 
 

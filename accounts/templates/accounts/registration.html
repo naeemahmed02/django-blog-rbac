@@ -1,0 +1,130 @@
+{% extends 'main.html' %}
+
+{% block title %}
+  Registration
+{% endblock %}
+
+{% block content %}
+<section class="d-flex align-items-center justify-content-center min-vh-100">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-md-8 col-lg-6">
+
+        <!-- Logo -->
+        <div class="text-center mb-4">
+          <a href="#" class="d-flex align-items-center justify-content-center mb-3 text-decoration-none">
+            <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" class="me-2" style="width:32px;height:32px;" />
+            <span class="h4 fw-bold text-dark">Flowbite</span>
+          </a>
+        </div>
+
+        <!-- Card -->
+        <div class="card shadow border-0">
+          <div class="card-body p-4 p-md-5">
+            <h1 class="h4 fw-bold text-center mb-4">Create your account</h1>
+
+            <!-- Messages -->
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
+
+            <!-- Registration Form -->
+            <form method="POST">
+              {% csrf_token %}
+
+              <!-- First Name -->
+              <div class="mb-3">
+                <label class="form-label">First Name</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                  <div class="text-danger mt-1">
+                    {% for error in form.first_name.errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Last Name -->
+              <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                  <div class="text-danger mt-1">
+                    {% for error in form.last_name.errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Email -->
+              <div class="mb-3">
+                <label class="form-label">Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                  <div class="text-danger mt-1">
+                    {% for error in form.email.errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Password -->
+              <div class="mb-3">
+                <label class="form-label">Password</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                  <div class="text-danger mt-1">
+                    {% for error in form.password.errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Confirm Password -->
+              <div class="mb-3">
+                <label class="form-label">Confirm password</label>
+                {{ form.confirm_password }}
+                {% if form.confirm_password.errors %}
+                  <div class="text-danger mt-1">
+                    {% for error in form.confirm_password.errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Terms -->
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" value="" id="terms" required />
+                <label class="form-check-label" for="terms">I agree to the <a href="#" class="text-success text-decoration-none">Terms and Conditions</a></label>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="btn btn-success w-100 mb-3">Sign up</button>
+
+              <!-- Login Link -->
+              <p class="text-center mb-0 small text-muted">
+                Already have an account?
+                <a href="#" class="text-success text-decoration-none fw-medium">Sign in</a>
+              </p>
+            </form>
+
+          </div>
+        </div>
+        <!-- End Card -->
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
