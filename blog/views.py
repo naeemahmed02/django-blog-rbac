@@ -30,19 +30,36 @@ def single_post(request, post_category: str, post_slug: str):
 
 
 def articles(request):
-    categories = Category.objects.all()
+    categories = Category.objects.all()[:5]
     query = request.GET.get("query")
+    category_slug = request.GET.get("category", "all")
+
+    # start with published posts
+    articles = Post.objects.filter(status="published")
+
+    # filter by category (if not "all")
+    if category_slug != "all":
+        articles = articles.filter(category__slug=category_slug)
+
+    # filter by search query (if present)
     if query:
-        articles = Post.objects.filter(status="published").filter(
+        articles = articles.filter(
             Q(title__icontains=query) | Q(content__icontains=query)
         )
-    else:
-        articles = Post.objects.filter(status="published")
-    paginator = Paginator(articles, 2)
+
+    paginator = Paginator(articles, 8)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    context = {"articles": articles, "page_obj": page_obj, "query": query, 'categories': categories}
+
+    context = {
+        "articles": articles,
+        "page_obj": page_obj,
+        "query": query,
+        "categories": categories,
+        "selected_category": category_slug,
+    }
     return render(request, "blog/articles.html", context)
+
 
 
 @login_required(login_url="user_login")
@@ -58,3 +75,9 @@ def add_guest_post(request):
         form = GuestPostForm()
     context = {"form": form}
     return render(request, "blog/guest_post.html", context)
+
+
+def guest_posts(request):
+    user_posts = Post.objects.filter(author = request.user)
+    context = {'user_posts': user_posts}
+    return render(request, 'blog/guest_posts.html', context)

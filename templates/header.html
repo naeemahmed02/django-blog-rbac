@@ -23,11 +23,15 @@
       <ul class="navbar-nav mb-2 mb-md-0">
 
         <li class="nav-item">
-          <a class="nav-link" href="articles.html">Articles</a>
+          <a class="nav-link" href="{% url 'articles' %}">Articles</a>
         </li>
 
         <li class="nav-item">
           <a class="nav-link" href="{% url 'add_guest_post' %}">Guest Post</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'guest_posts' %}">My Posts</a>
         </li>
 
         <!-- Account Dropdown -->

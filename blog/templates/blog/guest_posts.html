@@ -1,0 +1,103 @@
+{% extends 'main.html' %}
+
+{% block title %}
+  Guest Posts
+{% endblock %}
+
+{% block content %}
+  <div class="container py-5" style="max-width: 1400px;">
+    <h2 class="mb-5">Your Articles</h2>
+    <div class="card-body">
+      <!-- Header: Actions + Search -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <!-- Action Dropdown -->
+        <div class="dropdown mb-2 mb-md-0">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="actionMenuButton" data-bs-toggle="dropdown" aria-expanded="false">Bulk Actions</button>
+          <ul class="dropdown-menu" aria-labelledby="actionMenuButton">
+            <li>
+              <a class="dropdown-item" href="#">Approve</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#">Reject</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#">Promote</a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <a class="dropdown-item text-danger" href="#">Delete Selected</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Search -->
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search for posts..." aria-label="Search" />
+          <button class="btn btn-success" type="submit">Search</button>
+        </form>
+      </div>
+
+      <!-- Table -->
+      <div class="table-responsive">
+        <table class="table align-middle table-hover">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">
+                <input class="form-check-input" type="checkbox" />
+              </th>
+              <th scope="col">Featured Image</th>
+              <th scope="col">Title</th>
+              <th scope="col">Category</th>
+              <th scope="col">Status</th>
+              <th scope="col">Views</th>
+              <th scope="col">Claps</th>
+              <th scope="col">Comments</th>
+              <th scope="col" class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Example Row -->
+            {% for post in user_posts %}
+              <tr>
+                <td>
+                  <input class="form-check-input" type="checkbox" />
+                </td>
+                {% if post.featured_image %}
+                  <td>
+                    <img src="{{ post.featured_image.url }}" class="rounded" alt="Featured Image" style="width: 60px; height: 40px; object-fit: cover;" />
+                  </td>
+                {% else %}
+                  <td>
+                    <img src="https://via.placeholder.com/60x40" class="rounded" alt="Default Image" style="width: 60px; height: 40px; object-fit: cover;" />
+                  </td>
+                {% endif %}
+
+                <td>{{ post.title }}</td>
+                <td>
+                  <span class="badge bg-warning text-dark">{{ post.category }}</span>
+                </td>
+                <td>
+                  <span class="badge bg-warning text-dark">{{ post.status|upper }}</span>
+                </td>
+                <td>{{ post.views }}</td>
+                <td>{{ post.claps }}</td>
+                <td>{{ post.posts.count }}</td>
+                <td class="text-end">
+                  <a href="#" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                  <a href="#" class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Add New Post -->
+      <div class="mt-3">
+        <a href="#" class="btn btn-success">+ Add New Post</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
