@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from .forms import GuestPostForm
 from django.contrib.auth.decorators import login_required
+from category.models import Category
 
 
 def single_post(request, post_category: str, post_slug: str):
@@ -29,6 +30,7 @@ def single_post(request, post_category: str, post_slug: str):
 
 
 def articles(request):
+    categories = Category.objects.all()
     query = request.GET.get("query")
     if query:
         articles = Post.objects.filter(status="published").filter(
@@ -39,7 +41,7 @@ def articles(request):
     paginator = Paginator(articles, 2)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    context = {"articles": articles, "page_obj": page_obj, "query": query}
+    context = {"articles": articles, "page_obj": page_obj, "query": query, 'categories': categories}
     return render(request, "blog/articles.html", context)
 
 

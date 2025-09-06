@@ -1,6 +1,7 @@
 <!-- Bootstrap Navbar -->
 <nav class="navbar navbar-expand-md navbar-light bg-white sticky-top shadow-sm">
   <div class="container-fluid px-3 px-md-5">
+    
     <!-- Brand / Logo -->
     <a class="navbar-brand d-flex align-items-center" href="/">
       <!-- SVG Logo -->
@@ -20,12 +21,37 @@
     <!-- Navbar Links -->
     <div class="collapse navbar-collapse justify-content-end" id="mainNavbar">
       <ul class="navbar-nav mb-2 mb-md-0">
+
         <li class="nav-item">
           <a class="nav-link" href="articles.html">Articles</a>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" href="{% url 'add_guest_post' %}">Guest Post</a>
         </li>
+
+        <!-- Account Dropdown -->
+        {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle me-1"></i> {{request.user.first_name}}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" href=""><i class="bi bi-person me-2"></i>Profile</a></li>
+              <li><a class="dropdown-item" href="}"><i class="bi bi-gear me-2"></i>Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_login' %}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'user_registration' %}">Register</a>
+          </li>
+        {% endif %}
+
       </ul>
     </div>
   </div>

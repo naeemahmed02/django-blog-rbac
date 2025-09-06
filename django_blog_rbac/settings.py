@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'comments',
     'accounts',
     'froala_editor',
+    'django_seed',
     
 ]
 
@@ -151,3 +152,26 @@ AUTH_USER_MODEL = 'accounts.Account'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# # EMAIL VARIFICATION SETUP
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.office365.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'naeemahmedbooher@outlook.com'
+# EMAIL_HOST_PASSWORD = 'z0m1qpoz%C'
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+# EMAIL VERIFICATION SETUP (GMAIL)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'naeem.ahmed.bdn@gmail.com'
+EMAIL_HOST_PASSWORD = 'wpzh jhhv bvyq mthl'  # NOT your Gmail login password!
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+PASSWORD_RESET_TIMEOUT = 600
