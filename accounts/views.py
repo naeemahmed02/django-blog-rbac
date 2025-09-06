@@ -52,14 +52,14 @@ def user_registration(request):
             })
             # send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
             email = EmailMessage(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
-            email.content_subtype = "html"  # ✅ Important: send as HTML
+            email.content_subtype = "html"  # Important: send as HTML
             email.send()
             
 
             messages.success(
                 request, "Account created! Please check your email to verify before logging in."
             )
-            return redirect("home")
+            return redirect("user_login")
         else:
             messages.error(request, "Please correct the errors below.")
     else:
