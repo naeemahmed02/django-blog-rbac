@@ -7,6 +7,7 @@ from django.db.models import Q
 from .forms import GuestPostForm
 from django.contrib.auth.decorators import login_required
 from category.models import Category
+from django.contrib import messages
 
 
 def single_post(request, post_category: str, post_slug: str):
@@ -61,7 +62,6 @@ def articles(request):
     return render(request, "blog/articles.html", context)
 
 
-
 @login_required(login_url="user_login")
 def add_guest_post(request):
     if request.method == "POST":
@@ -77,7 +77,36 @@ def add_guest_post(request):
     return render(request, "blog/guest_post.html", context)
 
 
+@login_required(login_url="user_login")
 def guest_posts(request):
-    user_posts = Post.objects.filter(author = request.user)
-    context = {'user_posts': user_posts}
-    return render(request, 'blog/guest_posts.html', context)
+    query = request.GET.get('query')
+    if query:
+        user_posts = Post.objects.filter(Q(title__icontains= query) | Q(content__icontains=query))
+    else:
+        user_posts = Post.objects.filter(author=request.user)
+    context = {"user_posts": user_posts}
+    return render(request, "blog/guest_posts.html", context)
+
+
+@login_required(login_url="user_login")
+def edit_guest_post(request, slug):
+    post = get_object_or_404(Post, slug=slug, author=request.user)
+
+    if request.method == "POST":
+        form = GuestPostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your post has been updated successfully.")
+            return redirect("guest_posts")
+
+    else:
+        form = GuestPostForm(instance=post)
+    context = {"form": form}
+    return render(request, "blog/edit_guest_post.html", context)
+
+
+@login_required(login_url="user_login")
+def delete_guest_post(request, slug):
+    post = get_object_or_404(Post, slug=slug, author=request.user)
+    post.delete()
+    return redirect("guest_posts")

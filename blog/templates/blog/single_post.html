@@ -1,59 +1,79 @@
 {% extends 'main.html' %}
 
-{% block title %}{{ post.title }}{% endblock %}
+{% block title %}
+  {{ post.title }}
+{% endblock %}
 
 {% block content %}
-<!-- Blog Post Layout -->
-<div class="content overflow-hidden bg-white">
-  <div class="container px-4 py-5 px-md-5" style="max-width: 900px;">
-    <!-- Title + Meta -->
-    <div class="pb-4 mb-4 text-center border-bottom">
-      <h1 class="fw-bold display-5 mb-3 text-dark">
-        {{ post.title }}
-      </h1>
-      <p class="text-muted small">{{ post.time_to_read }} min read</p>
-    </div>
-
-    <!-- Article Content -->
-    <div class="article-content fs-6 lh-lg mb-5">
-      {{ post.content|safe }}
-    </div>
-
-    <!-- Comment Section -->
-    <div class="comments-section mt-5">
-      <h3 class="h5 fw-bold mb-4">Comments</h3>
-
-      <!-- Add Comment Form -->
-      <form method="POST" class="mb-5">
-        {% csrf_token %}
-        <div class="mb-3">
-          <label for="comment" class="form-label">Leave a comment</label>
-          {{ form }}
+  <!-- Blog Post Layout -->
+  <div class="content overflow-hidden bg-white">
+    <div class="container px-4 py-5 px-md-5" style="max-width: 1200px;">
+      <!-- Title + Meta -->
+      <div class="pb-4 mb-4 text-center border-bottom">
+        <h1 class="fw-bold display-5 mb-3 text-dark">{{ post.title }}</h1>
+        <div class="d-flex justify-content-between align-items-center">
+          <p class="text-muted small">👏 {{ post.claps }} Claps</p>
+          <p class="text-muted small">{{ post.time_to_read }} min read</p>
         </div>
-        <button type="submit" class="btn btn-success">Post Comment</button>
-      </form>
+      </div>
 
-      <!-- Comment List -->
-      <div class="comment-list">
-        <!-- Example Comment -->
-         {% for comment in comments %}
-        <div class="d-flex mb-4">
-          <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="User">
-          <div>
-            <h6 class="fw-bold mb-1">{{ comment.author.get_full_name }}<small class="text-muted">· {{ comment.created_at|timesince }}</small></h6>
-            <p class="mb-2">{{ comment.message }}</p>
+      <!-- Featured Image -->
+      {% if post.featured_image %}
+        <div class="text-center mb-4">
+          <img src="{{ post.featured_image.url }}" alt="Featured Image" class="img-fluid rounded" style="width: 100%; height: 600px; object-fit: cover;" />
+        </div>
+      {% endif %}
+
+      <!-- Article Content -->
+      <div class="article-content fs-6 lh-lg mb-5">{{ post.content|safe }}</div>
+
+      <!-- Comment Section -->
+      <div class="comments-section mt-5">
+        <h3 class="h5 fw-bold mb-4">Comments</h3>
+
+        <!-- Add Comment Form -->
+        <form method="POST" class="mb-5">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="id_message" class="form-label">Leave a comment</label>
+            {{ form.message }}
+            {% if form.message.errors %}
+              <div class="text-danger mt-1">
+                {% for error in form.message.errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+            {% endif %}
           </div>
+          <button type="submit" class="btn btn-success">Post Comment</button>
+        </form>
+
+        <!-- Comment List -->
+        <div class="comment-list">
+          {% for comment in comments %}
+            <div class="d-flex mb-4">
+              <img src="https://via.placeholder.com/50" class="rounded-circle me-3" alt="User" />
+              <div>
+                <h6 class="fw-bold mb-1">
+                  {{ comment.author.get_full_name }}
+                  <small class="text-muted">· {{ comment.created_at|timesince }}</small>
+                </h6>
+                <p class="mb-2">{{ comment.message }}</p>
+              </div>
+            </div>
+          {% empty %}
+            <p class="text-muted">No comments yet. Be the first to comment!</p>
+          {% endfor %}
         </div>
-
-        {% endfor %}
-        <!--End comment section-->
-        
+        <!-- End Comment List -->
+      </div>
+      <!-- End Comment Section -->
+    </div>
   </div>
-</div>
 
-<!-- Highlight.js JS -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-<script>
-  hljs.highlightAll();
-</script>
+  <!-- Highlight.js for code blocks (optional) -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script>
+    hljs.highlightAll()
+  </script>
 {% endblock %}

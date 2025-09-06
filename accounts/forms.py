@@ -15,6 +15,7 @@ class UserRegistrationForm(forms.ModelForm):
         }
         
         
+        
 class UserLoginForm(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your email'})

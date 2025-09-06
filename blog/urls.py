@@ -6,4 +6,7 @@ urlpatterns = [
     path('articles/', views.articles, name='articles'),
     path('add-guest-post/', views.add_guest_post, name='add_guest_post'),
     path('guest-posts/', views.guest_posts, name='guest_posts'),
+    path('edit-guest-post/<slug:slug>/', views.edit_guest_post, name='edit_guest_post'),
+    path('delete-guest-post/<slug:slug>/', views.delete_guest_post, name='delete_guest_post'),
+
 ]
