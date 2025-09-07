@@ -9,4 +9,5 @@ class CategoryAdmin(UserAdmin):
     
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'email', 'profile_pic']
+    exclude = ('user',)
+    list_display = ['profile_pic']

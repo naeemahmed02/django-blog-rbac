@@ -1,27 +1,31 @@
 {% extends 'main.html' %}
 {% load static %}
 
-{% block title %}Home{% endblock %}
+{% block title %}
+  Home
+{% endblock %}
 
 {% block content %}
-  
   <!-- Hero Section -->
   <section class="py-5 bg-white">
-    <div class="container px-4 py-5">
+    <div class="container px-4 py-4">
       <div class="row align-items-center">
-        <div class="col-md-6 order-2 order-md-1">
-          <h1 class="display-5 fw-bold text-dark mb-3">Django Things</h1>
+        <!-- Text Column -->
+        <div class="col-md-6">
+          <h1 class="display-5 fw-bold text-dark mb-3">Django Bytes</h1>
           <p class="lead mb-4">
-            <strong>Your Ultimate Destination for Django Mastery!</strong>  
-            From Cutting-Edge Tutorials to Expert Insights, We Deliver Top-Quality Content to Elevate Your Django Development Skills. Join Our Community and Stay Ahead in the World of Django with In-Depth Articles and Practical Guides.
+            <strong>From Practical Guides to Expert Tips, Django Bytes delivers bite-sized yet powerful knowledge to level up your Django development journey.</strong>
+            Explore cutting-edge tutorials, deep dives, and real-world projects—crafted to keep you ahead in the world of backend development.
           </p>
           <div class="d-flex gap-3 justify-content-center justify-content-md-start">
             <a href="django-projects.html" class="btn btn-success btn-lg">Django Projects</a>
             <a href="articles.html" class="btn btn-light btn-lg">Read Articles</a>
           </div>
         </div>
-        <div class="col-md-6 order-1 order-md-2 text-center">
-          <img src="images/djangocentral_hero.svg" class="img-fluid rounded" alt="hero">
+
+        <!-- Image Column -->
+        <div class="col-md-6 text-center text-md-end">
+          <img src="{% static 'assets/img/hero.png' %}" class="img-fluid object-fit-cover" style="object-position: center; height: 400px; width: 500px;" alt="hero" />
         </div>
       </div>
     </div>
@@ -30,37 +34,31 @@
 
   <!-- Blog Section -->
   <section class="py-5 bg-light">
-    <div class="container px-4">
+    <div class="container px-2">
       <div class="text-center mb-5">
         <h1 class="h2 fw-bold text-dark">Latest articles</h1>
-        <p class="text-muted">Read the latest from djangothings</p>
+        <p class="text-muted">Read the latest from DjangoBytes</p>
       </div>
 
-      <div class="row justify-content-center">
-        <div class="col-xl-8">
+      <!-- Article List -->
+      <div class="mx-auto" style="max-width: 1000px;">
+        {% if posts %}
           <ul class="list-unstyled">
-            <!-- Example Post Start -->
-             {% for post in posts %}
-            <li class="py-4 border-bottom">
-              <a href="#">
-                <span class="badge bg-success-subtle text-success mb-2">{{ post.category }}</span>
-              </a>
-              <h2 class="h4 fw-bold">
-                <a href="{% url 'single_post' post.category.slug post.slug %}" class="text-dark text-decoration-none">{{ post.title }}</a>
-              </h2>
-              <p class="mt-3">
-                {% comment %} {{ post.content|safe|truncatechars:160 }} {% endcomment %}
-                {{ post.content|truncatewords_html:30|safe }}
-              </p>
-              <div class="d-flex justify-content-between align-items-center mt-3">
-<a href="{% url 'single_post' post.category.slug post.slug %}" class="text-success fw-semibold text-decoration-none">Read more →</a>
-                <small class="text-muted">{{ post.time_to_read }} min read</small>
-              </div>
-            </li>
+            {% for post in posts %}
+              <li class="py-5 border-bottom">
+                <a href="?category={{ post.category.slug|lower }}" class="text-decoration-none"><span class="badge px-4 py-2 bg-success-subtle text-success fs-6 mb-3">{{ post.category }}</span></a>
+                <div class="h2 fw-bold"><a href="{% url 'single_post' post.category.slug post.slug %}" class="text-dark text-decoration-none">{{ post.title }}</a></div>
+                <div class="article-content fs-5 lh-lg">{{ post.content|truncatewords_html:30|safe }}</div>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                  <a href="{% url 'single_post' post.category.slug post.slug %}" class="text-success fw-semibold text-decoration-none">Read more →</a>
+                  <small class="fw-semibold text-decoration-none">{{ post.time_to_read }} min read</small>
+                </div>
+              </li>
             {% endfor %}
-            <!-- Example Post End -->
           </ul>
-        </div>
+        {% else %}
+          <p>No Posts found.</p>
+        {% endif %}
       </div>
 
       <div class="text-center mt-5">

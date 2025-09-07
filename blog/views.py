@@ -71,6 +71,7 @@ def add_guest_post(request):
             post.status = "draft"
             post.author = request.user
             post.save()
+            return redirect('guest_posts')
     else:
         form = GuestPostForm()
     context = {"form": form}
@@ -81,9 +82,9 @@ def add_guest_post(request):
 def guest_posts(request):
     query = request.GET.get('query')
     if query:
-        user_posts = Post.objects.filter(Q(title__icontains= query) | Q(content__icontains=query))
+        user_posts = Post.objects.filter(Q(title__icontains= query) | Q(content__icontains=query)).order_by('-created_at')
     else:
-        user_posts = Post.objects.filter(author=request.user)
+        user_posts = Post.objects.filter(author=request.user).order_by('-created_at')
     context = {"user_posts": user_posts}
     return render(request, "blog/guest_posts.html", context)
 

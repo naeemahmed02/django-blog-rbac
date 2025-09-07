@@ -65,7 +65,7 @@
                   </td>
                 {% endif %}
 
-                <td>{{ post.title }}</td>
+                <td><a href="{% url 'single_post' post.category.slug post.slug %}">{{ post.title }}</a></td>
                 <td>
                   <span class="badge bg-warning text-dark">{{ post.category }}</span>
                 </td>

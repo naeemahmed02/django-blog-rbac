@@ -80,13 +80,12 @@ class Account(AbstractBaseUser, PermissionsMixin):
     
     
 class Profile(models.Model):
-    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(Account, on_delete=models.CASCADE, related_name='profile')
     bio = FroalaField()
     profile_pic = models.ImageField(
         verbose_name="Profile Picture", 
         upload_to='user_profiles', 
         default='user_profiles/default.png')
-    email = models.EmailField(max_length=200, null=True, blank=True)
     
     
     def __str__(self):

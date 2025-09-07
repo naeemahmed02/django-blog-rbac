@@ -107,6 +107,12 @@ def user_login(request):
     return render(request, "accounts/login.html", context)
 
 
+def user_profile(request, user_id):
+    
+    return render(request, 'accounts/user_profile.html')
+
+
 def user_logout(request):
     logout(request)
     return redirect('home')
+

@@ -36,25 +36,26 @@
     <div class="d-flex flex-wrap justify-content-center mb-4 gap-2">
       <a href="?category=all" class="btn btn-outline-success">All</a>
       {% for category in categories %}
-      <a href="?category={{ category.slug }}" class="btn btn-outline-success">{{category}}</a>
+        <a href="?category={{ category.slug }}" class="btn btn-outline-success">{{ category }}</a>
       {% endfor %}
     </div>
 
     <!-- Article List -->
-    <div class="mx-auto" style="max-width: 800px;">
+    <div class="mx-auto" style="max-width: 1000px;">
       {% if page_obj %}
         {% if query %}
           <p class="mb-3">Showing results for "{{ query }}"</p>
         {% endif %}
-        <ul class="list-unstyled">
+        <ul class="list-unstyled mt-5">
           {% for article in page_obj %}
             <li class="py-5 border-bottom">
-              <a href="?category={{article.category.slug|lower}}" class="text-decoration-none"><span class="badge p-2 bg-success-subtle text-success mb-2">{{ article.category }}</span></a>
-              <h2 class="h4 fw-bold"><a href="{% url 'single_post' article.category.slug article.slug %}" class="text-dark text-decoration-none">{{ article.title }}</a></h2>
-              <p class="text-muted mt-3">{{ article.content|truncatewords_html:30|safe }}</p>
+              <a href="?category={{ article.category.slug|lower }}" class="text-decoration-none"><span class="badge px-4 py-2 bg-success-subtle text-success fs-6 mb-3">{{ article.category }}</span></a>
+
+              <div class="h2 fw-bold"><a href="{% url 'single_post' article.category.slug article.slug %}" class="text-dark text-decoration-none">{{ article.title }}</a></div>
+              <div class="article-content fs-5 lh-lg">{{ article.content|truncatewords_html:30|safe }}</div>
               <div class="d-flex justify-content-between align-items-center mt-3">
                 <a href="{% url 'single_post' article.category.slug article.slug %}" class="text-success fw-semibold text-decoration-none">Read more →</a>
-                <small class="text-muted">{{ article.time_to_read }} min read</small>
+                <small class="fw-semibold text-decoration-none">{{ article.time_to_read }} min read</small>
               </div>
             </li>
           {% endfor %}
