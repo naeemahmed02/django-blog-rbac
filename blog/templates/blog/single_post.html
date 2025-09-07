@@ -14,7 +14,7 @@
         <ul class="list-inline text-muted small mb-0">
           <li class="list-inline-item fs-6">👏 {{ post.claps }} Claps</li>
           <li class="list-inline-item fs-6">⏱ {{ post.time_to_read }} min read</li>
-          <a href=""><li class="list-inline-item fs-6">✍️ {{ post.author.get_full_name }}</li></a>
+          <a href="{% url 'user_profile' post.author.username %}"><li class="list-inline-item fs-6">✍️ {{ post.author.get_full_name }}</li></a>
         </ul>
       </div>
 

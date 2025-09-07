@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegistrationForm, UserLoginForm
-from .models import Account
+from .models import Account, Profile
 import random
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.sites.shortcuts import get_current_site
@@ -14,6 +14,7 @@ from django.conf import settings
 from datetime import datetime
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from blog.models import Post
 
 
 def user_registration(request):
@@ -107,9 +108,13 @@ def user_login(request):
     return render(request, "accounts/login.html", context)
 
 
-def user_profile(request, user_id):
-    
-    return render(request, 'accounts/user_profile.html')
+def user_profile(request, username):
+    user = Account.objects.get(username = username)
+    print(user)
+    posts_by_user = Post.objects.filter(status = 'draft', author = user)
+    print(posts_by_user)
+    context = {'user' : user, 'posts_by_user' : posts_by_user}
+    return render(request, 'accounts/user_profile.html', context)
 
 
 def user_logout(request):

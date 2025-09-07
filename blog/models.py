@@ -13,7 +13,7 @@ STATUS = (
 class Post(models.Model):
     title = models.CharField(max_length=1000, unique=True)
     slug = models.SlugField(max_length=1200, unique=True, blank=True)
-    author = models.ForeignKey(Account, on_delete=models.CASCADE)
+    author = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='writer')
     content = FroalaField()
     featured_image = models.ImageField(upload_to='post_featured_images')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts', default='Unknown')
