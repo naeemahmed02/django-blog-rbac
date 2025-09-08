@@ -8,11 +8,31 @@ from .forms import GuestPostForm
 from django.contrib.auth.decorators import login_required
 from category.models import Category
 from django.contrib import messages
+import time
+import random
 
 
 def single_post(request, post_category: str, post_slug: str):
     current_user = request.user
     post = get_object_or_404(Post, category__slug=post_category, slug=post_slug)
+    # count views on the post
+    
+    # Build a session key specific to the post
+    session_key = f"viewed_post{post.id}"
+    print(session_key)
+    now = time.time() # seconds
+    
+    # How long before we allow counting again (30 minutes = 1800 seconds)
+    cooldown = 30 * 60
+    
+    last_viewed = request.session.get(session_key)
+    
+    if not last_viewed or (now - last_viewed) > cooldown:
+        # Increment views only if not seen in last 30 minutes
+        post.views += 1
+        post.save(update_fields  = ["views"])
+        request.session[session_key] = now
+        
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():

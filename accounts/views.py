@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .forms import UserRegistrationForm, UserLoginForm
 from .models import Account, Profile
@@ -15,6 +15,7 @@ from datetime import datetime
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from blog.models import Post
+from django.db.models import Sum
 
 
 def user_registration(request):
@@ -110,12 +111,21 @@ def user_login(request):
 
 def user_profile(request, username):
     user = Account.objects.get(username = username)
-    print(user)
-    posts_by_user = Post.objects.filter(status = 'draft', author = user)
-    print(posts_by_user)
-    context = {'user' : user, 'posts_by_user' : posts_by_user}
+    # if current user is athor
+    if request.user == user:
+        # show all post to the author (draf + published)
+        posts_by_user = Post.objects.filter(author = user)
+    else:
+            
+        posts_by_user = Post.objects.filter(author = user, status = 'published')
+    total_post_views = Post.objects.filter(author = user).aggregate(total_views = Sum("views"))
+    total_post_views = total_post_views['total_views']
+    context = {'user' : user, 'posts_by_user' : posts_by_user, 'total_post_views': total_post_views}
     return render(request, 'accounts/user_profile.html', context)
 
+
+def edit_user_profile():
+    pass
 
 def user_logout(request):
     logout(request)

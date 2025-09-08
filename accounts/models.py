@@ -86,8 +86,9 @@ class Profile(models.Model):
         verbose_name="Profile Picture", 
         upload_to='user_profiles', 
         default='user_profiles/default.png')
+    whatsapp_number = models.CharField(max_length=20, null= True, blank=True)
     
     
     def __str__(self):
-        return f"{self.user.get_full_name}"
+        return str(self.user.get_full_name)
     

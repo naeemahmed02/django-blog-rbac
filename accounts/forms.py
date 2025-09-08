@@ -1,7 +1,8 @@
 from django import forms
-from .models import Account
+from .models import Account, Profile
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from froala_editor.widgets import FroalaEditor
 
 
 class UserRegistrationForm(forms.ModelForm):
@@ -76,5 +77,18 @@ class StyledSetPasswordForm(SetPasswordForm):
         label="Confirm password",
         widget=forms.PasswordInput(
             attrs={"class": "form-control", "placeholder": "Confirm password"}
-        )
+        ),
     )
+
+
+
+class UserProfile(forms.ModelForm):
+    bio = forms.CharField(widget=FroalaEditor)
+    class Meta:
+        model = Profile
+        fields = ['profile_pic', 'whatsapp_number']
+        widgets = {
+            'profile_pic' : forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'whatsapp_number' : forms.TextInput(attrs = {'class': 'form-control'}),
+        }
+        
