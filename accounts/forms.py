@@ -82,7 +82,7 @@ class StyledSetPasswordForm(SetPasswordForm):
 
 
 
-class UserProfile(forms.ModelForm):
+class EditUserProfile(forms.ModelForm):
     bio = forms.CharField(widget=FroalaEditor)
     class Meta:
         model = Profile

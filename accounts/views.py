@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .forms import UserRegistrationForm, UserLoginForm
+from .forms import UserRegistrationForm, UserLoginForm, EditUserProfile
 from .models import Account, Profile
 import random
 from django.contrib.auth import authenticate, login, logout
@@ -15,7 +15,8 @@ from datetime import datetime
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from blog.models import Post
-from django.db.models import Sum
+from django.db.models import Sum 
+
 
 
 def user_registration(request):
@@ -124,8 +125,11 @@ def user_profile(request, username):
     return render(request, 'accounts/user_profile.html', context)
 
 
-def edit_user_profile():
-    pass
+def edit_user_profile(request, username):
+    if request.method == "POST":
+        form = EditUserProfile(request.POST)
+    else:
+        form = EditUserProfile()
 
 def user_logout(request):
     logout(request)
