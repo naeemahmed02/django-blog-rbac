@@ -1,0 +1,87 @@
+{% extends 'main.html' %}
+
+{% block title %}
+    Edit Profile
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-9">
+            <div class="card shadow-sm border-0">
+                <!-- Header with emerald-200 background -->
+                <div class="card-header text-dark" style="background-color: #A7F3D0;">
+                    <h4 class="mb-0">Edit Profile</h4>
+                </div>
+                <div class="card-body">
+                    {{ form.media }}
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Profile Picture Upload Section -->
+                        <div class="mb-4 text-center">
+                            {% if user.profile_pic %}
+                                <img src="{{ user.profile_pic.url }}"
+                                     alt="Profile Picture"
+                                     class="rounded-circle shadow mb-3"
+                                     style="width: 140px; height: 140px; object-fit: cover; transition: transform 0.3s ease;"
+                                     onmouseover="this.style.transform='scale(1.05)'"
+                                     onmouseout="this.style.transform='scale(1)'">
+                            {% else %}
+                                <img src="https://via.placeholder.com/140"
+                                     alt="Default Avatar"
+                                     class="rounded-circle shadow mb-3"
+                                     style="width: 140px; height: 140px; object-fit: cover;">
+                            {% endif %}
+
+                            <!-- Custom Upload Button -->
+                            <div class="mt-2">
+                                <label for="id_profile_pic" class="btn btn-outline-success btn-sm fw-semibold">
+                                    📷 Change Profile Picture
+                                </label>
+                                <!-- Hide raw file input -->
+                                {{ form.profile_pic }}
+                            </div>
+
+                            <div class="form-text text-muted mt-1">
+                                JPG, PNG — Max size: 2MB
+                            </div>
+                        </div>
+
+                        <!-- Bio -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Bio</label>
+                            {{ form.bio }}
+                        </div>
+
+                        <!-- WhatsApp Number -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">WhatsApp Number</label>
+                            {{ form.whatsapp_number }}
+                        </div>
+
+                        <!-- Save Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn text-white" style="background-color: #34D399;">
+                                💾 Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JS to show selected file name -->
+<script>
+    const input = document.getElementById('id_profile_pic');
+    const label = document.querySelector('label[for="id_profile_pic"]');
+
+    input.addEventListener('change', function () {
+        if (this.files.length > 0) {
+            label.textContent = '📷 ' + this.files[0].name;
+        }
+    });
+</script>
+{% endblock %}

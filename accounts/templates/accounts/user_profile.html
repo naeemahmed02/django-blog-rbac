@@ -60,9 +60,10 @@
 
             <!-- Action -->
             {% if request.user == user %}
-              <a href="#" class="btn mt-4 px-4" style="background-color:#34D399; color:white;">
+              <a href="{% url 'edit_user_profile' user.username %}" class="btn mt-4 px-4" style="background-color:#34D399; color:white;">
                 Edit Profile
               </a>
+            {% else %}
             {% endif %}
           </div>
         </div>

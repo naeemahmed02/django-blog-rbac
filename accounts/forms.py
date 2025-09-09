@@ -86,9 +86,9 @@ class EditUserProfile(forms.ModelForm):
     bio = forms.CharField(widget=FroalaEditor)
     class Meta:
         model = Profile
-        fields = ['profile_pic', 'whatsapp_number']
+        fields = ['profile_pic', 'bio', 'whatsapp_number']
         widgets = {
-            'profile_pic' : forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'profile_pic' : forms.ClearableFileInput(attrs={'class': 'd-none', 'id': 'id_profile_pic'}),
             'whatsapp_number' : forms.TextInput(attrs = {'class': 'form-control'}),
         }
         

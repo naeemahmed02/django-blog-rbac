@@ -15,7 +15,7 @@ from datetime import datetime
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from blog.models import Post
-from django.db.models import Sum 
+from django.db.models import Sum
 
 
 
@@ -125,11 +125,28 @@ def user_profile(request, username):
     return render(request, 'accounts/user_profile.html', context)
 
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .forms import EditUserProfile
+from .models import Profile, Account
+
 def edit_user_profile(request, username):
+    account = get_object_or_404(Account, username=username)
+    profile = get_object_or_404(Profile, user=account)
+
     if request.method == "POST":
-        form = EditUserProfile(request.POST)
+        form = EditUserProfile(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
     else:
-        form = EditUserProfile()
+        form = EditUserProfile(instance=profile)
+
+    context = {
+        'form': form,
+        'user': profile,
+    }
+    return render(request, 'accounts/edit_user_profile.html', context)
+
 
 def user_logout(request):
     logout(request)
