@@ -16,9 +16,10 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from blog.models import Post
 from django.db.models import Sum
+from . decorators import unauthenticated
 
 
-
+@unauthenticated
 def user_registration(request):
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
@@ -87,7 +88,6 @@ def activate(request, uidb64, token):
     else:
         messages.error(request, "Activation link is invalid or expired.")
         return redirect("home")
-
 
 
 def user_login(request):
