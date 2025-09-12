@@ -1,0 +1,12 @@
+{% extends 'main.html' %}
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+<section class="d-flex align-items-center justify-content-center min-vh-100 text-center">
+  <div>
+    <h1 class="display-4 fw-bold text-danger">404</h1>
+    <p class="lead">Oops! The page you're looking for doesn't exist.</p>
+    <a href="{% url 'home' %}" class="btn btn-outline-success mt-3">Go to Homepage</a>
+  </div>
+</section>
+{% endblock %}

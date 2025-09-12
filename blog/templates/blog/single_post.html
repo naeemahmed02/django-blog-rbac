@@ -27,7 +27,8 @@
 
       <!-- Article Content -->
       <div class="article-content fs-5 lh-lg mb-5">{{ post.content|safe }}</div>
-
+      
+      {% if request.user.is_authenticated %}
       <!-- Comment Section -->
       <div class="comments-section mt-5">
         <h3 class="h5 fw-bold mb-4">Comments</h3>
@@ -68,6 +69,11 @@
         </div>
         <!-- End Comment List -->
       </div>
+    {% else %}
+    <div class="text-center my-3"><a href="{% url 'user_login' %}?next={{request.path}}" class="text-info text-decoration-none fw-semibold">
+      Please log in to comment →
+    </a></div>
+      {% endif %}
       <!-- End Comment Section -->
     </div>
   </div>

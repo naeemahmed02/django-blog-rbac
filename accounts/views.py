@@ -92,6 +92,7 @@ def activate(request, uidb64, token):
 
 @unauthenticated
 def user_login(request):
+    next_url = request.GET.get('next')
     if request.method == "POST":
         form = UserLoginForm(request.POST)
         if form.is_valid():
@@ -101,13 +102,13 @@ def user_login(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, "Logged in successfully!")
-                return redirect("home")
+                return redirect(next_url or "home")
             else:
                 messages.error(request, "Invalid email or password.")
     else:
         form = UserLoginForm()
 
-    context = {"form": form}
+    context = {"form": form, next: next_url}
     return render(request, "accounts/login.html", context)
 
 

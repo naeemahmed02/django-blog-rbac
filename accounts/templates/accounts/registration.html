@@ -5,18 +5,24 @@
 {% endblock %}
 
 {% block content %}
-<section class="d-flex align-items-center justify-content-center min-vh-100">
+<section class="d-flex align-items-center justify-content-center min-vh-100 mt-5 mb-5">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-sm-10 col-md-8 col-lg-6">
 
         <!-- Logo -->
         <div class="text-center mb-4">
-          <a href="#" class="d-flex align-items-center justify-content-center mb-3 text-decoration-none">
-            <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" class="me-2" style="width:32px;height:32px;" />
-            <span class="h4 fw-bold text-dark">Flowbite</span>
-          </a>
-        </div>
+  <!-- Brand / Logo -->
+  <a class="d-flex align-items-center justify-content-center text-decoration-none" href="/">
+    <!-- SVG Logo -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24">
+      <rect x="2" y="2" width="20" height="20" rx="10" ry="10" fill="#2F855A"/>
+      <text x="50%" y="54%" font-size="11" text-anchor="middle" dy=".3em" fill="#FFFFFF" font-family="Arial" font-weight="bold">DB</text>
+    </svg>
+    <span class="ms-2" style="font-size: 22px; font-weight: bold; color: #2F855A;">DjangoBytes</span>
+  </a>
+</div>
+
 
         <!-- Card -->
         <div class="card shadow border-0">
@@ -112,11 +118,6 @@
                 {% endif %}
               </div>
 
-              <!-- Terms -->
-              <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" value="" id="terms" required />
-                <label class="form-check-label" for="terms">I agree to the <a href="#" class="text-success text-decoration-none">Terms and Conditions</a></label>
-              </div>
 
               <!-- Submit Button -->
               <button type="submit" class="btn btn-success w-100 mb-3">Sign up</button>
@@ -124,7 +125,7 @@
               <!-- Login Link -->
               <p class="text-center mb-0 small text-muted">
                 Already have an account?
-                <a href="#" class="text-success text-decoration-none fw-medium">Sign in</a>
+                <a href="{% url 'user_login' %}" class="text-success text-decoration-none fw-medium">Sign in</a>
               </p>
             </form>
 
