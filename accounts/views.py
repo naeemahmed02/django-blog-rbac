@@ -17,6 +17,7 @@ from django.template.loader import render_to_string
 from blog.models import Post
 from django.db.models import Sum
 from . decorators import unauthenticated
+from django.contrib.auth.decorators import login_required
 
 
 @unauthenticated
@@ -89,7 +90,7 @@ def activate(request, uidb64, token):
         messages.error(request, "Activation link is invalid or expired.")
         return redirect("home")
 
-
+@unauthenticated
 def user_login(request):
     if request.method == "POST":
         form = UserLoginForm(request.POST)
@@ -116,19 +117,14 @@ def user_profile(request, username):
     if request.user == user:
         # show all post to the author (draf + published)
         posts_by_user = Post.objects.filter(author = user)
-    else:
-            
+    else: 
         posts_by_user = Post.objects.filter(author = user, status = 'published')
     total_post_views = Post.objects.filter(author = user).aggregate(total_views = Sum("views"))
     total_post_views = total_post_views['total_views']
     context = {'user' : user, 'posts_by_user' : posts_by_user, 'total_post_views': total_post_views}
     return render(request, 'accounts/user_profile.html', context)
 
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .forms import EditUserProfile
-from .models import Profile, Account
-
+@login_required(login_url = "user_login")
 def edit_user_profile(request, username):
     account = get_object_or_404(Account, username=username)
     profile = get_object_or_404(Profile, user=account)

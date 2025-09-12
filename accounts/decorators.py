@@ -6,7 +6,7 @@ def unauthenticated(view):
     @wraps(view)
     def wrapper(request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect(request)
+            return redirect('home')
         else:
-            return redirect(request, *args, **kwargs)
+            return view(request, *args, **kwargs)
     return wrapper
