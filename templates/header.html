@@ -30,19 +30,18 @@
           <a class="nav-link fs-5" style="font-weight: normal;" href="{% url 'add_guest_post' %}">Guest Post</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link fs-5" style="font-weight: normal;" href="{% url 'guest_posts' %}">My Posts</a>
-        </li>
 
         <!-- Account Dropdown -->
         {% if user.is_authenticated %}
+          <li class="nav-item">
+          <a class="nav-link fs-5" style="font-weight: normal;" href="{% url 'guest_posts' %}">My Posts</a>
+        </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle d-flex align-items-center fs-5" style="font-weight: normal;" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-circle me-1"></i> {{request.user.first_name}}
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-              <li><a class="dropdown-item" href=""><i class="bi bi-person me-2"></i>Profile</a></li>
-              <li><a class="dropdown-item" href=""><i class="bi bi-gear me-2"></i>Settings</a></li>
+              <li><a class="dropdown-item" href="{% url 'user_profile' user_profile.username %}"><i class="bi bi-person me-2"></i>Profile</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
             </ul>
