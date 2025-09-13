@@ -90,5 +90,5 @@ class Profile(models.Model):
     
     
     def __str__(self):
-        return str(self.user.get_full_name)
+        return f"Profile Details: {self.user.first_name} {self.user.last_name}"
     
