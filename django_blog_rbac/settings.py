@@ -62,25 +62,26 @@ WSGI_APPLICATION = 'django_blog_rbac.wsgi.application'
 
 
 # Database
-# Default: SQLite (good for PythonAnywhere starter account)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# To use MySQL on PythonAnywhere (uncomment and set env vars)
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': config('DB_NAME'),
-#         'USER': config('DB_USER'),
-#         'PASSWORD': config('DB_PASSWORD'),
-#         'HOST': config('DB_HOST'),
-#         'PORT': config('DB_PORT', default='3306'),
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': config('ENGINE'),
+        'NAME': config('NAME'),
+        'USER': config('USER'),
+        'PASSWORD': config('PASSWORD'),
+        'HOST': config('HOST'),
+        'PORT': config('PORT'),
+        'OPTIONS': {
+            'sslmode': config('SSLMODE'),
+        },
+    }
+}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
