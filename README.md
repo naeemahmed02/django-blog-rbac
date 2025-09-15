@@ -97,7 +97,7 @@ The next phase of the project will introduce a **REST API layer** with **Django 
 
 ## 👨‍💻 Author
 **Naeem Ahmed**  
-Full Stack Developer | Passionate about **Backend Systems, Deep Learning & RAG**  
+Full Stack Developer | Passionate About **Backend Systems, Deep Learning & RAG**  
 
 ---
 
