@@ -54,7 +54,7 @@ Currently the **core functionality is implemented**, while the **REST API layer 
 - **Database**: PostgreSQL (preferred for production)  
 - **Auth**: Email verification + role-based access control  
 - **AI Integration**: Gemini API (for comment moderation)  
-- **Frontend (basic)**: Django templates (can be extended to React/Flutter later)  
+- **Frontend (basic)**: Django templates, (can be extended to React/Flutter later)  
 
 ---
 
